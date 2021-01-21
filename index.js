@@ -70,6 +70,8 @@ function draw(){
         // Breathe in. 
         // Relax.
         // Read slowly
+        // Read carefully
+        // Visualize it
         if( birdX + birdImg.width >= pipes[i].x && birdX <= pipes[i].x + northPipe.width && (birdY <= pipes[i].y + northPipe.height || birdY+birdImg.height >= pipes[i].y + constant) || birdY + birdImg.height >=  canvas.height - fgImg.height){
             
             clearInterval(intervalID);
@@ -101,5 +103,5 @@ function draw(){
 window.addEventListener('load', () => {
     intervalID = setInterval(() => {
         requestAnimationFrame(draw)
-     }, 30)
+     }, 10)
 })
