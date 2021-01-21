@@ -20,11 +20,12 @@ northPipe.src = 'images/pipeNorth.png'
 let southPipe = document.createElement('img')
 southPipe.src = 'images/pipeSouth.png'
 
-let constant = northPipe.height + 100
+
 
 let pipes = [{x:canvas.width + 10 , y: 0}]
 
 let birdY = 30
+let birdX = 30
 let birdIncrement = 2
 
 // event listeners to handle bord movement
@@ -42,7 +43,8 @@ document.addEventListener('mouseup', () => {
 function draw(){
     ctx.drawImage(backImg, 0, 0)
 
-
+    // set it here else you will get NaN set up
+    let constant = northPipe.height + 100
     // loop over a set of pipes to create the pipe animation
     for(let i=0; i< pipes.length ;i++) {
         ctx.drawImage(northPipe, pipes[i].x, pipes[i].y)
@@ -55,7 +57,8 @@ function draw(){
 
         // check if a pipe has reached a certain position
         if (pipes[i].x == 50) {
-
+            // increment the score
+            score++
             // add a new pipe at a random y value
             pipes.push({
                 x: canvas.width + 30,
@@ -63,16 +66,22 @@ function draw(){
             })
         }
 
-        /*pipe collision
-        if () {
-            clearinterval()
-             alert('game over')
+        // DONT FREAK OUT READING THIS
+        // Breathe in. 
+        // Relax.
+        // Read slowly
+        if( birdX + birdImg.width >= pipes[i].x && birdX <= pipes[i].x + northPipe.width && (birdY <= pipes[i].y + northPipe.height || birdY+birdImg.height >= pipes[i].y + constant) || birdY + birdImg.height >=  canvas.height - fgImg.height){
+            
+            clearInterval(intervalID);
+            //DONT EVER DO THE NEXT TWO LINES. This is only for explanations
+            alert('GAME OVER');
+            location.reload(); 
         }
-        */
+        
     }
     
     //draw your bird and foreground images
-    ctx.drawImage(birdImg, 30, birdY)
+    ctx.drawImage(birdImg, birdX, birdY)
     ctx.drawImage(fgImg, 0, canvas.height - fgImg.height)
 
     // add your score text
@@ -86,7 +95,11 @@ function draw(){
 }
 
 // create your interval here
-intervalID = setInterval(() => {
-   requestAnimationFrame(draw)
-}, 10)
 
+
+
+window.addEventListener('load', () => {
+    intervalID = setInterval(() => {
+        requestAnimationFrame(draw)
+     }, 30)
+})
